@@ -4,8 +4,8 @@ import { GraduationCap, Calendar, MapPin, BookOpen } from "lucide-react";
 
 export const Education: React.FC = () => {
   const degree = "Bachelor of Computer Science";
-  const institution = "Your University Name";
-  const years = "2021 – 2025";
+  const institution = "KCG College of Technology";
+  const years = "2023 – 2027";
   const location = "Chennai, India";
   const description = `Focused on building strong foundations in software engineering, data structures, system design, and full-stack web development. 
 

@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { GraduationCap, Calendar, MapPin, BookOpen } from "lucide-react";
 
 export const Education: React.FC = () => {
-  const degree = "Bachelor of Computer Science";
+  const degree = "Bachelor of Engineering in Computer Science and Engineering";
   const institution = "KCG College of Technology";
   const years = "2023 – 2027";
   const location = "Chennai, India";

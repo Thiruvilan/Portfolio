@@ -1,33 +1,63 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Home, User, Code, FolderOpen, GraduationCap, Mail, Menu, X } from 'lucide-react';
+import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  Home,
+  User,
+  Code,
+  FolderOpen,
+  GraduationCap,
+  Mail,
+  Menu,
+  X,
+} from "lucide-react";
 
 const navItems = [
-  { id: 'hero', icon: Home, label: 'Home' },
-  { id: 'about', icon: User, label: 'About' },
-  { id: 'skills', icon: Code, label: 'Skills' },
-  { id: 'projects', icon: FolderOpen, label: 'Projects' },
-  { id: 'education', icon: GraduationCap, label: 'Education' },
-  { id: 'contact', icon: Mail, label: 'Contact' },
+  { id: "hero", icon: Home, label: "Home" },
+  { id: "about", icon: User, label: "About" },
+  { id: "skills", icon: Code, label: "Skills" },
+  { id: "projects", icon: FolderOpen, label: "Projects" },
+  { id: "education", icon: GraduationCap, label: "Education" },
+  { id: "contact", icon: Mail, label: "Contact" },
 ];
 
 export const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState('hero');
+  const [activeSection, setActiveSection] = useState("hero");
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+      element.scrollIntoView({ behavior: "smooth" });
       setActiveSection(id);
       setIsOpen(false);
     }
   };
 
+  /* 🔥 Detect active section while scrolling */
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = navItems.map((item) => document.getElementById(item.id));
+
+      sections.forEach((section) => {
+        if (!section) return;
+
+        const rect = section.getBoundingClientRect();
+
+        if (rect.top <= 200 && rect.bottom >= 200) {
+          setActiveSection(section.id);
+        }
+      });
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
     <>
       {/* Desktop Sidebar */}
-      <motion.nav 
+      <motion.nav
         initial={{ x: -100, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
         transition={{ duration: 0.5 }}
@@ -41,9 +71,9 @@ export const Navbar: React.FC = () => {
               whileTap={{ scale: 0.95 }}
               onClick={() => scrollToSection(item.id)}
               className={`p-3 rounded-xl transition-all duration-300 group relative ${
-                activeSection === item.id 
-                  ? 'gradient-bg text-primary-foreground glow-sm' 
-                  : 'hover:bg-secondary text-muted-foreground hover:text-foreground'
+                activeSection === item.id
+                  ? "gradient-bg text-primary-foreground glow-sm"
+                  : "hover:bg-secondary text-muted-foreground hover:text-foreground"
               }`}
               title={item.label}
             >
@@ -57,13 +87,15 @@ export const Navbar: React.FC = () => {
       </motion.nav>
 
       {/* Mobile Header */}
-      <motion.header 
+      <motion.header
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         className="fixed top-0 left-0 right-0 z-50 md:hidden nav-glass"
       >
         <div className="flex items-center justify-between p-4">
-          <span className="font-display font-bold text-lg gradient-text">TM</span>
+          <span className="font-display font-bold text-lg gradient-text">
+            TM
+          </span>
 
           <button
             onClick={() => setIsOpen(!isOpen)}
@@ -77,7 +109,7 @@ export const Navbar: React.FC = () => {
           {isOpen && (
             <motion.div
               initial={{ height: 0, opacity: 0 }}
-              animate={{ height: 'auto', opacity: 1 }}
+              animate={{ height: "auto", opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
               className="overflow-hidden border-t border-border"
             >
@@ -87,9 +119,9 @@ export const Navbar: React.FC = () => {
                     key={item.id}
                     onClick={() => scrollToSection(item.id)}
                     className={`flex flex-col items-center gap-1 p-3 rounded-xl transition-all ${
-                      activeSection === item.id 
-                        ? 'gradient-bg text-primary-foreground' 
-                        : 'hover:bg-secondary text-muted-foreground'
+                      activeSection === item.id
+                        ? "gradient-bg text-primary-foreground"
+                        : "hover:bg-secondary text-muted-foreground"
                     }`}
                   >
                     <item.icon className="w-5 h-5" />
